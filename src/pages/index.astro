@@ -1,49 +1,737 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+// src/pages/index.astro
+// Placeholder landing page. All sample data below is fictional.
+// Body copy is greeked — replace before anything real ships.
+
+const samples = [
+  {
+    id: "SAMPLE-001",
+    family: "Credential harvest",
+    host: "login.example-notabank[.]invalid",
+    verdict: "malicious",
+  },
+  {
+    id: "SAMPLE-002",
+    family: "Invoice fraud",
+    host: "billing.example-supplier[.]invalid",
+    verdict: "malicious",
+  },
+  {
+    id: "SAMPLE-003",
+    family: "Delivery lure",
+    host: "track.example-courier[.]invalid",
+    verdict: "suspicious",
+  },
+  {
+    id: "SAMPLE-004",
+    family: "Callback scam",
+    host: "support.example-helpdesk[.]invalid",
+    verdict: "inconclusive",
+  },
+];
+
+const nav = [
+  { id: "overview", label: "Overview" },
+  { id: "samples", label: "Recent samples" },
+  { id: "method", label: "Method" },
+  { id: "tooling", label: "Tooling" },
+];
 ---
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>gatemoss — phishing email analysis</title>
+    <meta name="description" content="A working notebook on phishing email analysis." />
+    <meta name="robots" content="noindex" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="topbar" id="topbar">
+      <div class="devstrip">
+        <div class="shell devstrip__inner">
+          <span class="devstrip__dot" aria-hidden="true"></span>
+          <span>Site in development — all sample data shown is fictional</span>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Primary">
+        <div class="shell nav__inner">
+          <a class="wordmark" href="#top">gatemoss</a>
+
+          <div class="nav__links" id="navLinks">
+            <span class="nav__pill" id="navPill" aria-hidden="true"></span>
+            {
+              nav.map((item) => (
+                <a class="nav__link" href={`#${item.id}`} data-nav={item.id}>
+                  {item.label}
+                </a>
+              ))
+            }
+          </div>
+
+          <a class="btn" href="#samples">See a sample</a>
+        </div>
+      </nav>
+    </div>
+
+    <div class="shell" id="top">
+      <main>
+        <section class="hero" id="overview">
+          <div class="hero__text">
+            <p class="eyebrow">Phishing email analysis</p>
+            <h1>
+              Hi Stewart, this is a wee Security Research Project im working on. <em> <br /> Where hostile mail<br />
+              gets taken apart.</em>
+            </h1>
+            <p class="lede">
+              Messages arrive at Phishing Honeypots, get pulled apart header by
+              header, and are written up one at a time — what the sender claimed,
+              what the headers actually say, and how you'd catch it next time.
+            </p>
+            <div class="hero__actions">
+              <a class="btn btn--lg" href="#samples">See a sample</a>
+              <span class="hero__note">First write-ups in progress</span>
+            </div>
+          </div>
+
+          <figure class="card">
+            <figcaption class="card__label">
+              <span>Header analysis</span>
+              <span class="badge">Example only</span>
+            </figcaption>
+            <pre class="card__body">Return-Path: &lt;bounce@<span class="hl">example-notabank.invalid</span>&gt;
+Received: from mail-04.<span class="hl">example-notabank.invalid</span>
+  by mx.gatemoss.com
+Authentication-Results:
+  spf=<span class="fail">fail</span> dkim=<span class="fail">none</span> dmarc=<span class="fail">fail</span>
+From: "IT Service Desk" &lt;no-reply@<span class="hl">example-notabank.invalid</span>&gt;
+Subject: Action required: sign-in verification</pre>
+            <figcaption class="card__foot">
+              Fictional message, written for this page. The display name claims
+              to be internal IT; every authentication check fails and both sender
+              fields sit on the same lookalike domain.
+            </figcaption>
+          </figure>
+        </section>
+
+        <section class="section" id="samples">
+          <header class="section__head">
+            <h2>Recent samples</h2>
+            <span class="section__tag">Placeholder entries</span>
+          </header>
+
+          <ul class="samples">
+            {
+              samples.map((s) => (
+                <li>
+                  <span class="samples__id">{s.id}</span>
+                  <span class="samples__family">{s.family}</span>
+                  <span class="samples__host">{s.host}</span>
+                  <span class={`tag tag--${s.verdict}`}>{s.verdict}</span>
+                </li>
+              ))
+            }
+          </ul>
+          <p class="note">
+            Invented entries on reserved <code>.invalid</code> domains, defanged
+            with brackets. Real catalogue to follow.
+          </p>
+        </section>
+
+        <section class="section" id="method">
+          <header class="section__head">
+            <h2>Method</h2>
+            <span class="section__tag">Draft copy</span>
+          </header>
+          <div class="cols">
+            <article>
+              <h3>Collection</h3>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Vestibulum tincidunt mauris eu risus varius, non fermentum arcu
+                porta. Sed auctor lectus quis sapien vehicula.
+              </p>
+            </article>
+            <article>
+              <h3>Analysis</h3>
+              <p>
+                Curabitur pretium tincidunt lacus. Nulla gravida orci a odio.
+                Nullam varius, turpis et commodo pharetra, est eros bibendum
+                elit, nec luctus magna felis sollicitudin mauris.
+              </p>
+            </article>
+            <article>
+              <h3>Write-up</h3>
+              <p>
+                Integer in mauris eu nibh euismod gravida. Duis ac tellus et
+                risus vulputate vehicula. Donec lobortis risus a elit. Etiam
+                tempor lorem non nisi.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="tooling">
+          <header class="section__head">
+            <h2>Tooling</h2>
+            <span class="section__tag">Draft copy</span>
+          </header>
+          <div class="cols">
+            <article>
+              <h3>Triage</h3>
+              <p>
+                Praesent commodo cursus magna, vel scelerisque nisl consectetur
+                et. Aenean lacinia bibendum nulla sed consectetur.
+              </p>
+            </article>
+            <article>
+              <h3>Corpus</h3>
+              <p>
+                Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
+                auctor. Maecenas faucibus mollis interdum.
+              </p>
+            </article>
+            <article>
+              <h3>Detection</h3>
+              <p>
+                Donec ullamcorper nulla non metus auctor fringilla. Cras mattis
+                consectetur purus sit amet fermentum.
+              </p>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <span>gatemoss</span>
+        <span>Independent research. Nothing here reflects any employer.</span>
+      </footer>
+    </div>
+
+    <script>
+      const topbar = document.getElementById("topbar");
+      const links = Array.from(
+        document.querySelectorAll(".nav__link")
+      ) as HTMLAnchorElement[];
+      const pill = document.getElementById("navPill");
+      const container = document.getElementById("navLinks");
+
+      // Condense the bar once the page has moved.
+      const onScroll = () => {
+        topbar?.classList.toggle("is-scrolled", window.scrollY > 24);
+      };
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+
+      // Slide the pill to a given link.
+      const movePill = (el: HTMLElement | null) => {
+        if (!el || !pill) return;
+        pill.style.opacity = "1";
+        pill.style.width = `${el.offsetWidth}px`;
+        pill.style.transform = `translateX(${el.offsetLeft}px)`;
+      };
+
+      let activeLink: HTMLElement | null = links[0] ?? null;
+
+      links.forEach((link) => {
+        link.addEventListener("mouseenter", () => movePill(link));
+        link.addEventListener("focus", () => movePill(link));
+      });
+      container?.addEventListener("mouseleave", () => movePill(activeLink));
+
+      // Track which section is in view.
+      const sections = links
+        .map((l) => document.getElementById(l.dataset.nav ?? ""))
+        .filter((s): s is HTMLElement => Boolean(s));
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const match = links.find((l) => l.dataset.nav === entry.target.id);
+            if (!match) return;
+            links.forEach((l) => l.classList.remove("is-active"));
+            match.classList.add("is-active");
+            activeLink = match;
+            movePill(match);
+          });
+        },
+        { rootMargin: "-45% 0px -50% 0px" }
+      );
+      sections.forEach((s) => observer.observe(s));
+
+      window.addEventListener("load", () => movePill(activeLink));
+      window.addEventListener("resize", () => movePill(activeLink));
+    </script>
+  </body>
 </html>
+
+<style is:global>
+  :root {
+    --ink: #161c18;
+    --moss: #3f5a44;
+    --moss-bright: #4f7358;
+    --lichen: #93a487;
+    --paper: #e9e8de;
+    --paper-raised: #f4f3ec;
+    --oxide: #8c3a32;
+    --amber: #8a6b21;
+
+    --display: "Instrument Serif", Georgia, serif;
+    --body: "Archivo", system-ui, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+
+    --line: rgba(22, 28, 24, 0.14);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 96px;
+  }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .shell {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ---------- Top bar ---------- */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(233, 232, 222, 0.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .topbar.is-scrolled {
+    border-bottom-color: var(--line);
+    box-shadow: 0 6px 20px -14px rgba(22, 28, 24, 0.5);
+  }
+
+  .devstrip {
+    background: var(--moss);
+    color: var(--paper-raised);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    overflow: hidden;
+    max-height: 40px;
+    transition: max-height 0.3s ease, opacity 0.25s ease;
+  }
+  .topbar.is-scrolled .devstrip {
+    max-height: 0;
+    opacity: 0;
+  }
+  .devstrip__inner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 9px;
+    padding-bottom: 9px;
+  }
+  .devstrip__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--paper-raised);
+    flex: none;
+    animation: blink 2.4s ease-in-out infinite;
+  }
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.3;
+    }
+  }
+
+  .nav__inner {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    height: 62px;
+    transition: height 0.25s ease;
+  }
+  .topbar.is-scrolled .nav__inner {
+    height: 54px;
+  }
+
+  .wordmark {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--moss);
+    text-decoration: none;
+    flex: none;
+  }
+
+  .nav__links {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+  }
+  .nav__pill {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 32px;
+    margin-top: -16px;
+    border-radius: 999px;
+    background: rgba(63, 90, 68, 0.12);
+    opacity: 0;
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+      width 0.28s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+    pointer-events: none;
+  }
+  .nav__link {
+    position: relative;
+    z-index: 1;
+    padding: 6px 14px;
+    font-size: 0.87rem;
+    color: rgba(22, 28, 24, 0.66);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.18s ease;
+  }
+  .nav__link:hover,
+  .nav__link.is-active {
+    color: var(--moss);
+  }
+  .nav__link.is-active {
+    font-weight: 500;
+  }
+  .nav__link:focus-visible {
+    outline: 2px solid var(--moss);
+    outline-offset: 2px;
+    border-radius: 999px;
+  }
+
+  .btn {
+    flex: none;
+    display: inline-block;
+    padding: 9px 18px;
+    border-radius: 999px;
+    background: var(--moss);
+    color: var(--paper-raised);
+    font-size: 0.84rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.18s ease, transform 0.18s ease;
+  }
+  .btn:hover {
+    background: var(--moss-bright);
+    transform: translateY(-1px);
+  }
+  .btn:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+  .btn--lg {
+    padding: 13px 26px;
+    font-size: 0.95rem;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 56px;
+    align-items: center;
+    padding: 76px 0 92px;
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--moss);
+    margin: 0 0 20px;
+  }
+  h1 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(2.9rem, 6.6vw, 4.7rem);
+    line-height: 1;
+    letter-spacing: -0.015em;
+    margin: 0 0 22px;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--moss);
+  }
+  .lede {
+    font-size: 1.07rem;
+    max-width: 44ch;
+    margin: 0 0 32px;
+    color: rgba(22, 28, 24, 0.76);
+  }
+  .hero__actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .hero__note {
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    color: var(--lichen);
+  }
+
+  /* ---------- Card ---------- */
+  .card {
+    margin: 0;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 18px 40px -28px rgba(22, 28, 24, 0.55);
+  }
+  .card__label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--moss);
+    padding: 13px 20px;
+    border-bottom: 1px solid var(--line);
+  }
+  .badge {
+    letter-spacing: 0.12em;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: rgba(140, 58, 50, 0.1);
+    color: var(--oxide);
+  }
+  .card__body {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.85;
+    margin: 0;
+    padding: 22px 20px;
+    white-space: pre-wrap;
+    word-break: break-word;
+    color: rgba(22, 28, 24, 0.82);
+  }
+  .card__body .hl {
+    color: var(--oxide);
+    background: rgba(140, 58, 50, 0.1);
+  }
+  .card__body .fail {
+    color: var(--oxide);
+    font-weight: 500;
+  }
+  .card__foot {
+    font-size: 0.83rem;
+    line-height: 1.55;
+    padding: 15px 20px 19px;
+    border-top: 1px solid var(--line);
+    color: rgba(22, 28, 24, 0.6);
+  }
+
+  /* ---------- Sections ---------- */
+  .section {
+    padding: 0 0 88px;
+  }
+  .section__head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .section__head h2 {
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--moss);
+    margin: 0;
+  }
+  .section__tag {
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--lichen);
+    border: 1px dashed rgba(147, 164, 135, 0.7);
+    border-radius: 999px;
+    padding: 2px 9px;
+  }
+
+  .samples {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--line);
+  }
+  .samples li {
+    display: grid;
+    grid-template-columns: 118px 1fr 1fr auto;
+    gap: 20px;
+    align-items: baseline;
+    padding: 17px 10px;
+    border-bottom: 1px solid rgba(22, 28, 24, 0.1);
+    transition: background 0.18s ease;
+  }
+  .samples li:hover {
+    background: var(--paper-raised);
+  }
+  .samples__id,
+  .samples__host {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+  }
+  .samples__id {
+    color: var(--lichen);
+  }
+  .samples__host {
+    color: rgba(22, 28, 24, 0.58);
+  }
+  .samples__family {
+    font-weight: 500;
+  }
+  .tag {
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 4px 9px;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+  }
+  .tag--malicious {
+    color: var(--oxide);
+  }
+  .tag--suspicious {
+    color: var(--amber);
+  }
+  .tag--inconclusive {
+    color: var(--lichen);
+  }
+  .note {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--lichen);
+    margin: 16px 0 0;
+  }
+  .note code {
+    background: rgba(63, 90, 68, 0.1);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  .cols {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 36px;
+  }
+  .cols h3 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: 1.55rem;
+    margin: 0 0 8px;
+  }
+  .cols p {
+    margin: 0;
+    font-size: 0.94rem;
+    color: rgba(22, 28, 24, 0.6);
+  }
+
+  footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 26px 0 40px;
+    border-top: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--lichen);
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px) {
+    .hero {
+      grid-template-columns: 1fr;
+      gap: 42px;
+      padding: 54px 0 68px;
+    }
+    .cols {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .samples li {
+      grid-template-columns: 1fr auto;
+      row-gap: 6px;
+    }
+    .samples__host {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .nav__inner {
+      gap: 14px;
+    }
+    .nav__links {
+      overflow-x: auto;
+      scrollbar-width: none;
+      margin-left: 0;
+    }
+    .nav__links::-webkit-scrollbar {
+      display: none;
+    }
+    .nav__inner > .btn {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+</style>
